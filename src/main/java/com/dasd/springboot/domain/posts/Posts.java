@@ -1,5 +1,6 @@
 package com.dasd.springboot.domain.posts;
 
+import com.dasd.springboot.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor//기본 생성자 자동 추가. LOMBOK
 
 @Entity//테이블과 링크될 클래스를 나타내는 어노테이션
-public class Posts {
+public class Posts extends BaseTimeEntity {
+
+    /*
+    Entity클래스는 절대로 request/response 클래스로 사용해서는 안된다!
+    따로 dto클래스를 만들어 연결해야 한다.
+     */
 
     @Id//해당 테이블의 Primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)//Primary key의 생성 규칙.
@@ -41,5 +47,10 @@ public class Posts {
     이 메소드로만 사용해야 한다.
 
      */
+
+    public void update(String title,String content){
+        this.title=title;
+        this.content=content;
+    }
 
 }
