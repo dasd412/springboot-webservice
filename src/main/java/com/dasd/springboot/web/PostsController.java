@@ -22,12 +22,21 @@ public class PostsController {
 
     @PutMapping("/api/v1/posts/{id}")
     public Long update(@PathVariable long id, @RequestBody PostsUpdateRequestDto requestDto){
+
+        System.out.println("post"+requestDto.getTitle()+" "+requestDto.getContent());
         return postsService.update(id,requestDto);
     }
 
     @GetMapping("/api/v1/posts/{id}")
     public PostsResponseDto findById(@PathVariable long id ){
         return postsService.findById(id);
+    }
+
+
+    @DeleteMapping("/api/v1/posts/{id}")
+    public Long delete(@PathVariable long id){
+        postsService.delete(id);
+        return id;
     }
 
 }
