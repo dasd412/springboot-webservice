@@ -1,5 +1,6 @@
 package com.dasd.springboot.web;
 
+import com.dasd.springboot.configure.auth.dto.SessionUser;
 import com.dasd.springboot.service.posts.PostsService;
 import com.dasd.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +9,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
 
     private final PostsService postsService;
+    private final HttpSession httpSession;
 
     @GetMapping("/")
     public String index(Model model){//Model 객체는 서버 템플릿 엔진에서 사용할 수 있는 객체를 저장한다.
         model.addAttribute("posts",postsService.findAllDesc());
+
+        SessionUser user=(SessionUser)httpSession.getAttribute("user");
+
+        if(user!=null){
+            model.addAttribute("userName",user.getName());
+        }
 
         return "index";
     }
