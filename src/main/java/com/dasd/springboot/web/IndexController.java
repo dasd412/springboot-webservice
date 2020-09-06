@@ -1,5 +1,6 @@
 package com.dasd.springboot.web;
 
+import com.dasd.springboot.configure.auth.LoginUser;
 import com.dasd.springboot.configure.auth.dto.SessionUser;
 import com.dasd.springboot.service.posts.PostsService;
 import com.dasd.springboot.web.dto.PostsResponseDto;
@@ -19,10 +20,9 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model){//Model 객체는 서버 템플릿 엔진에서 사용할 수 있는 객체를 저장한다.
+    public String index(Model model, @LoginUser SessionUser user){//Model 객체는 서버 템플릿 엔진에서 사용할 수 있는 객체를 저장한다.
         model.addAttribute("posts",postsService.findAllDesc());
 
-        SessionUser user=(SessionUser)httpSession.getAttribute("user");
 
         if(user!=null){
             model.addAttribute("userName",user.getName());
